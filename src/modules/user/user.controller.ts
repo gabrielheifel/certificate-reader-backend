@@ -1,15 +1,19 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
+import { v4 as uuid } from "uuid";
 import { UserRepository } from "./user.repository";
 import { CreateUserDTO } from "./dto/createUser.dto";
 import { UserEntity } from "./entity/user.entity";
-import { v4 as uuid } from "uuid";
 import { ListUserDTO } from "./dto/listUser.dto";
 import { UpdateUserDTO } from "./dto/updateUser.dto";
+import { UserService } from "./user.service";
 
 @Controller('/users')
 export class UserController {
 
-  constructor(private userRepository: UserRepository) { }
+  constructor(
+    private userRepository: UserRepository,
+    private userService: UserService
+  ) { }
 
   @Post()
   async createUser(@Body() userData: CreateUserDTO) {
@@ -32,15 +36,9 @@ export class UserController {
 
   @Get()
   async listUsers() {
-    const usersArray = await this.userRepository.list();
-    const usersList = usersArray.map(
-      user => new ListUserDTO(
-        user.id,
-        user.name
-      )
-    )
+    const usersSaved = await this.userService.listUsers();
 
-    return usersList;
+    return usersSaved;
   }
 
   @Put('/:id')

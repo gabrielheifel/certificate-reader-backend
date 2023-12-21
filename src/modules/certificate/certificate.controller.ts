@@ -3,8 +3,7 @@ import { CertificateRepository } from "./certificate.repository";
 import { CreateCertificateDTO } from "./dto/createCertificate.dto";
 import { CertificateEntity } from "./entity/certificate.entity";
 import { v4 as uuid } from "uuid";
-import { UserEntity } from "src/user/entity/user.entity";
-import { UpdateUserDTO } from "src/user/dto/updateUser.dto";
+import { UpdateCertificateDTO } from "./dto/updateCertificate.dto";
 
 @Controller('/certificate')
 export class CertificateController {
@@ -24,7 +23,7 @@ export class CertificateController {
     certificateEntity.date = certificateData.date
     certificateEntity.issuingOrganization = certificateData.issuingOrganization
 
-    this.certificateRepository.save(UserEntity);
+    this.certificateRepository.save(CertificateEntity);
     return {
       certificate: certificateEntity,
       message: "certificate created successfully!"
@@ -37,7 +36,7 @@ export class CertificateController {
   }
 
   @Put('/:id')
-  async updateUser(@Param('id') id: string, @Body() newData: UpdateUserDTO) {
+  async updateUser(@Param('id') id: string, @Body() newData: UpdateCertificateDTO) {
     const updatedCertificate = await this.certificateRepository.update(id, newData)
 
     return {
