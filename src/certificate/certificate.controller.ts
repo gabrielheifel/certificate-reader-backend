@@ -1,15 +1,26 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from "@nestjs/common";
-import { CertificateRepository } from "./certificate.repository";
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from "@nestjs/common";
 import { CreateCertificateDTO } from "./dto/createCertificate.dto";
 import { CertificateEntity } from "./entity/certificate.entity";
 import { v4 as uuid } from "uuid";
 import { UserEntity } from "src/user/entity/user.entity";
-import { UpdateUserDTO } from "src/user/dto/updateUser.dto";
+import { CertificateService } from "./certificate.service";
+import { CertificateRepository } from "./certificate.repository";
+import { UpdateCertificateDTO } from "./dto/updateCertificate.dto";
+import { FileInterceptor } from "@nestjs/platform-express";
 
 @Controller('/certificate')
 export class CertificateController {
 
-  constructor(private certificateRepository: CertificateRepository) { }
+  constructor(
+    private readonly certificateService: CertificateService,
+    private certificateRepository: CertificateRepository
+  ) { }
+
+  @Post('/teste')
+  @UseInterceptors(FileInterceptor('file'))
+  async teste(@UploadedFile() file) {
+    return this.certificateService.createCertificate(file)
+  }
 
   @Post()
   async createCertificate(@Body() certificateData: CreateCertificateDTO) {
@@ -32,27 +43,17 @@ export class CertificateController {
   }
 
   @Get()
-  async listCertificate() {
-    return this.certificateRepository.list();
+  async listCertificates(): Promise<CertificateEntity[]> {
+    return this.certificateService.listCertificates();
   }
 
   @Put('/:id')
-  async updateUser(@Param('id') id: string, @Body() newData: UpdateUserDTO) {
-    const updatedCertificate = await this.certificateRepository.update(id, newData)
-
-    return {
-      user: updatedCertificate,
-      message: "certificate updated successfully!"
-    }
+  async updateUser(@Param('id') id: string, @Body() newData: UpdateCertificateDTO): Promise<CertificateEntity> {
+    return this.certificateService.updateUser(id, newData)
   }
 
   @Delete('/:id')
-  async deleteUser(@Param('id') id: string) {
-    const deletedCertificate = await this.certificateRepository.delete(id)
-
-    return {
-      user: deletedCertificate,
-      message: "certificate deleted successfully!"
-    }
+  async deleteUser(@Param('id') id: string): Promise<CertificateEntity> {
+    return this.certificateService.deleteUser(id)
   }
 }

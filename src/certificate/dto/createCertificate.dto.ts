@@ -1,9 +1,12 @@
-import { IsString, IsNumber, IsDate, IsUUID, IsOptional } from "class-validator";
+import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
+import { IsString, IsNumber, IsDate, IsUUID, IsOptional, IsUrl } from "class-validator";
 
 export class CreateCertificateDTO {
 
   // @IsUUID(undefined, { message: 'Certificate ID invalid' })
   id: string;
+
+  file: Blob;
 
   @IsString()
   @IsOptional()
@@ -38,3 +41,7 @@ export class CreateCertificateDTO {
   @IsOptional()
   assessment: number;
 }
+
+// export const uploadOptions: MulterOptions = {
+//   dest: './uploads',
+// };

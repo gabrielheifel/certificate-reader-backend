@@ -3,6 +3,8 @@ export class CertificateEntity {
 
   type: string;
 
+  file: string;
+
   name: string;
 
   activityName: string;

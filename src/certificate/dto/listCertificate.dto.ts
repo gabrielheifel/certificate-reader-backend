@@ -1,6 +1,7 @@
 export class ListCertificateDTO {
   constructor(
     readonly id: string,
+    readonly file: File,
     readonly name: string,
     readonly type: string,
     readonly activityName: string,
