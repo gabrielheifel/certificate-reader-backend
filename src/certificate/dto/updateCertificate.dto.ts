@@ -1,10 +1,8 @@
-import { MulterOptions } from "@nestjs/platform-express/multer/interfaces/multer-options.interface";
-import { File } from "buffer";
 import { IsString, IsNumber, IsOptional } from "class-validator";
 
 export class UpdateCertificateDTO {
 
-  file: any;
+  file: Blob[];
 
   @IsString()
   @IsOptional()
@@ -22,11 +20,12 @@ export class UpdateCertificateDTO {
   @IsOptional()
   workLoad: string;
 
-  @IsNumber()
   @IsOptional()
-  days: string;
+  days: string[];
 
-  // @IsDate()
+  @IsOptional()
+  hours: string;
+
   @IsString()
   @IsOptional()
   date: string;
@@ -37,9 +36,5 @@ export class UpdateCertificateDTO {
 
   @IsNumber()
   @IsOptional()
-  assessment: number;
+  assessment: string;
 }
-
-// export const uploadOptions: MulterOptions = {
-//   dest: './uploads',
-// };

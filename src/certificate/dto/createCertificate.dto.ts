@@ -6,7 +6,7 @@ export class CreateCertificateDTO {
   // @IsUUID(undefined, { message: 'Certificate ID invalid' })
   id: string;
 
-  file: Blob;
+  file: Blob[];
 
   @IsString()
   @IsOptional()
@@ -26,9 +26,11 @@ export class CreateCertificateDTO {
 
   @IsNumber()
   @IsOptional()
-  days: string;
+  days: string[];
 
-  // @IsDate()
+  @IsOptional()
+  hours: string;
+
   @IsString()
   @IsOptional()
   date: string;
@@ -39,9 +41,5 @@ export class CreateCertificateDTO {
 
   @IsNumber()
   @IsOptional()
-  assessment: number;
+  assessment: string;
 }
-
-// export const uploadOptions: MulterOptions = {
-//   dest: './uploads',
-// };

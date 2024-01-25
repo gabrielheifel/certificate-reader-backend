@@ -3,7 +3,7 @@ export class CertificateEntity {
 
   type: string;
 
-  file: string;
+  file: Blob[];
 
   name: string;
 
@@ -11,11 +11,13 @@ export class CertificateEntity {
 
   workLoad: string;
 
-  days: string;
+  days: string[];
+
+  hours: string;
 
   date: string;
 
   issuingOrganization: string;
 
-  assessment: number;
+  assessment: string;
 }
